@@ -26,7 +26,8 @@ function createMessage(overrides: Partial<Message> = {}): Message {
   return {
     id: 'message-1',
     role: 'user',
-    content: 'Design a dependable launch plan for the new dashboard.',
+    content:
+      'Design a compliant Jarvis pre-call brief from a fictional CRM record.',
     createdAt: UPDATED_AT,
     status: 'complete',
     ...overrides,
@@ -38,7 +39,7 @@ describe('conversationReducer', () => {
     const firstConversation = createConversation();
     const secondConversation = createConversation({
       id: 'conversation-2',
-      title: 'Existing conversation',
+      title: 'Ather scientific exchange',
     });
 
     let state = conversationReducer(createEmptyConversationState(), {
@@ -63,12 +64,12 @@ describe('conversationReducer', () => {
     state = conversationReducer(state, {
       type: 'conversation/renamed',
       conversationId: 'conversation-1',
-      title: '  Interview   preparation  ',
+      title: '  Helix   onboarding  ',
       at: UPDATED_AT,
     });
 
     expect(state.activeConversationId).toBe('conversation-1');
-    expect(state.conversations[0].title).toBe('Interview preparation');
+    expect(state.conversations[0].title).toBe('Helix onboarding');
 
     state = conversationReducer(state, {
       type: 'conversation/deleted',
@@ -100,7 +101,7 @@ describe('conversationReducer', () => {
     );
     expect(
       deriveConversationTitle(
-        'A deliberately long title that should be truncated into a polished conversation label',
+        'Prepare a detailed synthetic Simulation Studio concept test for diverse HCP personas',
       ),
     ).toMatch(/…$/);
   });
@@ -125,14 +126,14 @@ describe('conversationReducer', () => {
       type: 'message/stream-chunk',
       conversationId: 'conversation-1',
       messageId: 'message-assistant',
-      delta: 'First ',
+      delta: 'Approved ',
       at: UPDATED_AT,
     });
     state = conversationReducer(state, {
       type: 'message/stream-chunk',
       conversationId: 'conversation-1',
       messageId: 'message-assistant',
-      delta: 'answer',
+      delta: 'workflow',
       at: UPDATED_AT,
     });
     state = conversationReducer(state, {
@@ -143,7 +144,7 @@ describe('conversationReducer', () => {
     });
 
     expect(state.conversations[0].messages[0]).toMatchObject({
-      content: 'First answer',
+      content: 'Approved workflow',
       status: 'complete',
     });
 

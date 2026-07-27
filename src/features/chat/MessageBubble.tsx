@@ -36,7 +36,7 @@ export const MessageBubble = memo(function MessageBubble({
 
   return (
     <article
-      aria-label={`${isAssistant ? 'Synthex' : 'You'} message`}
+      aria-label={`${isAssistant ? 'Synthio Assistant' : 'You'} message`}
       className={[
         'message',
         `message--${message.role}`,

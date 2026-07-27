@@ -13,9 +13,9 @@ export interface MockChatApiOptions {
 }
 
 const DEFAULT_OPTIONS: Required<MockChatApiOptions> = {
-  initialDelayMs: 45,
-  chunkDelayMs: 12,
-  wordsPerChunk: 4,
+  initialDelayMs: 30,
+  chunkDelayMs: 7,
+  wordsPerChunk: 6,
 };
 
 let mockResponseSequence = 0;
@@ -73,27 +73,81 @@ function splitIntoChunks(content: string, wordsPerChunk: number): string[] {
 
 export function createMockReply(message: string): string {
   const normalized = message.trim().toLowerCase();
+  const explicitProduct =
+    normalized.includes('jarvis')
+      ? 'jarvis'
+      : normalized.includes('ather')
+        ? 'ather'
+        : normalized.includes('helix')
+          ? 'helix'
+          : normalized.includes('simulation studio')
+            ? 'simulation'
+            : normalized.includes('polaris')
+              ? 'polaris'
+              : null;
 
   if (
-    normalized.includes('interview') ||
-    normalized.includes('prepare')
+    normalized.includes('adverse event') ||
+    normalized.includes('safety signal') ||
+    normalized.includes('side effect')
   ) {
-    return 'Let’s make this practical. Frame each answer as context, decision, action, and measurable outcome. Prepare one strong story for ownership, one for ambiguity, and one for collaboration. Rehearse them aloud, keep each under two minutes, and close with thoughtful questions about the team’s priorities and definition of success.';
+    return 'Safety-first workflow — synthetic demo\n\n1. Acknowledge the report neutrally and avoid assessing causality or giving medical advice.\n2. Capture only the minimum details required by the configured safety process; do not request or display unnecessary personal data here.\n3. Trigger the approved adverse-event escalation immediately and connect the person to the designated human or emergency pathway when configured.\n4. Preserve the original wording, timestamp, consent state, and handoff outcome in the audit trail.\n\nThis mock assistant does not replace a clinician, pharmacovigilance team, or emergency service.';
   }
 
   if (
-    normalized.includes('summarize') ||
-    normalized.includes('summary')
+    explicitProduct === 'jarvis' ||
+    (explicitProduct === null &&
+      (normalized.includes('pre-call') ||
+        normalized.includes('post-call') ||
+        normalized.includes('field call') ||
+        normalized.includes('crm record')))
   ) {
-    return 'Here’s the concise version: identify the central decision, group the supporting evidence into three themes, and end with the next action. Share the source material when you are ready and I’ll turn it into a clear, decision-ready summary.';
+    return 'Jarvis field workflow — synthetic demo\n\n1. Pre-call — Summarize the fictional account context, recent needs, open actions, and approved talking points.\n2. During the call — Listen for questions and commitments without generating unsupported clinical or promotional claims.\n3. Post-call — Structure the need, theme, action, owner, due date, and approved source references for CRM review.\n4. Guardrails — Route off-label questions to Medical Information and any adverse-event or product-quality report to the required safety workflow.\n\nNo real HCP or patient data is used, and every output should remain reviewable and auditable.';
   }
 
   if (
-    normalized.includes('plan') ||
-    normalized.includes('roadmap') ||
-    normalized.includes('launch')
+    explicitProduct === 'ather' ||
+    (explicitProduct === null &&
+      (normalized.includes('hcp') ||
+        normalized.includes('scientific exchange') ||
+        normalized.includes('off-label') ||
+        normalized.includes('medical information')))
   ) {
-    return 'A focused plan has four stages: define the outcome and success metric, choose the smallest useful first milestone, assign owners and checkpoints, then review results and adjust. Start with the highest-risk assumption so you learn early without slowing delivery.';
+    return 'Ather scientific-response workflow — synthetic demo\n\n1. Clarify the HCP’s intent and desired level of detail.\n2. Retrieve only configured PI, approved content, Medical Information guidance, and permitted references.\n3. Present a concise answer with source traceability; do not fabricate a study, statistic, dosing instruction, or product claim.\n4. Route off-label requests through the approved Medical Information escalation rather than generating a promotional response.\n5. Log the question, response boundary, sources, and escalation outcome for review.\n\nThis demonstrates interaction design, not medical guidance.';
+  }
+
+  if (
+    explicitProduct === 'helix' ||
+    (explicitProduct === null &&
+      (normalized.includes('patient support') ||
+        normalized.includes('patient-support') ||
+        normalized.includes('onboarding') ||
+        normalized.includes('enrollment') ||
+        normalized.includes('coverage')))
+  ) {
+    return 'Helix patient-support flow — synthetic demo\n\n1. Welcome and consent — Explain the program scope, privacy choices, and route to a human.\n2. Onboarding — Guide the fictional participant through required steps and flag missing information without collecting unnecessary sensitive data.\n3. Access — Explain approved benefit-verification, prior-authorization, and support-program steps.\n4. Ongoing support — Use approved education and reminders while directing clinical decisions to the care team.\n5. Safety — Detect possible adverse events and trigger the configured human escalation immediately.\n\nNever paste identifiable patient information into this demo.';
+  }
+
+  if (
+    explicitProduct === 'simulation' ||
+    (explicitProduct === null &&
+      (normalized.includes('persona') ||
+        normalized.includes('concept test') ||
+        normalized.includes('market research') ||
+        normalized.includes('advisory board')))
+  ) {
+    return 'Simulation Studio research plan — synthetic demo\n\n1. Define the decision, approved concepts, target segments, and success criteria.\n2. Create diverse synthetic HCP or patient personas with documented assumptions.\n3. Run identical core questions plus controlled probes for clarity, credibility, fair balance, and confusion.\n4. Compare themes, retain minority viewpoints, and preserve prompt versions and transcripts for auditability.\n5. Treat simulated findings as hypotheses and validate material decisions with compliant human research and Medical, Legal, and Regulatory review.\n\nSynthetic personas are not real clinicians or patients.';
+  }
+
+  if (
+    explicitProduct === 'polaris' ||
+    (explicitProduct === null &&
+      (normalized.includes('commercial data') ||
+        normalized.includes('commercial question') ||
+        normalized.includes('dashboard') ||
+        normalized.includes('trend')))
+  ) {
+    return 'Polaris HQ analysis pattern — synthetic demo\n\n1. Confirm the commercial question, time period, population, and approved source systems.\n2. Analyze field activity, recurring HCP needs, access barriers, patient-support signals, and outcomes in parallel.\n3. Separate observed evidence from interpretation and disclose freshness, missing-data, and selection-bias limitations.\n4. Return leading signals with drill-down dimensions and source references, never an unsupported causal claim.\n5. Log the query, transformations, sources, and output so the result remains auditable.\n\nNo dataset is connected in this demo, so I will not invent a finding or metric.';
   }
 
   if (
@@ -101,10 +155,10 @@ export function createMockReply(message: string): string {
     normalized.includes('hi ') ||
     normalized === 'hi'
   ) {
-    return 'Hi — I’m ready. Ask me to plan a project, summarize research, improve your writing, or think through a difficult decision. I’ll keep the answer clear and actionable.';
+    return 'Hi — I’m Synthio Assistant. Try a fictional Jarvis field workflow, an Ather scientific exchange, a Helix patient-support journey, a Simulation Studio concept test, or a Polaris HQ commercial question. I use synthetic scenarios only and keep approved-content, audit, off-label, and safety escalation boundaries visible.';
   }
 
-  return 'I can help with that. A strong next step is to clarify the outcome, note the constraints, and choose the smallest action that produces useful feedback. If you share a little more context, I’ll turn it into a concise plan with concrete next steps.';
+  return 'I can help map that request to a Synthio Labs workflow. Share the business outcome and choose Jarvis, Ather, Helix, Simulation Studio, or Polaris HQ. Please use only fictional records: this demo does not need real patient or HCP data, and it will not invent medical facts or commercial findings.';
 }
 
 export function createMockChatApi(

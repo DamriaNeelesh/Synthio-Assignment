@@ -63,6 +63,22 @@ function extractContent(value: unknown): string | null {
   return null;
 }
 
+function createInvalidResponseError(cause?: unknown): ChatApiError {
+  return new ChatApiError(
+    'invalid_response',
+    'The chat service returned an empty or unsupported response.',
+    { cause, retryable: true },
+  );
+}
+
+function requireMeaningfulContent(content: string): string {
+  if (!content.trim()) {
+    throw createInvalidResponseError();
+  }
+
+  return content;
+}
+
 async function emitChunk(
   content: string,
   index: number,
@@ -73,20 +89,25 @@ async function emitChunk(
   }
 }
 
-function parseEventData(line: string, isEventStream: boolean): string | null {
-  if (isEventStream && !line.startsWith('data:')) {
-    return null;
-  }
+function parseLineRecord(line: string, isEventStream: boolean): string | null {
+  const normalizedLine = line.trimStart();
+  const hasDataPrefix = normalizedLine.startsWith('data:');
+  const value = hasDataPrefix
+    ? normalizedLine.slice(5).trimStart()
+    : line;
+  const trimmedValue = value.trim();
 
-  const value = isEventStream ? line.slice(5).trimStart() : line;
-  if (!value || value === '[DONE]') {
+  if (!trimmedValue || trimmedValue === '[DONE]') {
     return null;
   }
 
   try {
-    return extractContent(JSON.parse(value)) ?? '';
+    return extractContent(JSON.parse(value));
   } catch {
-    return value;
+    // SSE permits plain-text `data:` fields. NDJSON records, and bare SSE
+    // records, must remain valid JSON so metadata and malformed lines are
+    // never surfaced as assistant content.
+    return isEventStream && hasDataPrefix ? value : null;
   }
 }
 
@@ -116,7 +137,7 @@ async function consumeLineStream(
     pending = done ? '' : (lines.pop() ?? '');
 
     for (const line of lines) {
-      const delta = parseEventData(line, isEventStream);
+      const delta = parseLineRecord(line, isEventStream);
       if (delta) {
         completeContent += delta;
         await emitChunk(delta, chunkIndex, onChunk);
@@ -126,7 +147,7 @@ async function consumeLineStream(
 
     if (done) {
       if (pending) {
-        const delta = parseEventData(pending, isEventStream);
+        const delta = parseLineRecord(pending, isEventStream);
         if (delta) {
           completeContent += delta;
           await emitChunk(delta, chunkIndex, onChunk);
@@ -242,16 +263,20 @@ export function createRemoteChatApi(
       let content: string;
 
       if (contentType.includes('application/json')) {
-        const body: unknown = await response.json();
+        let body: unknown;
+        try {
+          body = await response.json();
+        } catch (error: unknown) {
+          if (error instanceof DOMException && error.name === 'AbortError') {
+            throw error;
+          }
+          throw createInvalidResponseError(error);
+        }
         const parsedContent = extractContent(body);
         if (parsedContent === null) {
-          throw new ChatApiError(
-            'invalid_response',
-            'The chat service returned an unsupported response.',
-            { retryable: false },
-          );
+          throw createInvalidResponseError();
         }
-        content = parsedContent;
+        content = requireMeaningfulContent(parsedContent);
         await emitChunk(content, 0, request.onChunk);
       } else if (
         contentType.includes('text/event-stream') ||
@@ -265,6 +290,8 @@ export function createRemoteChatApi(
       } else {
         content = await consumeTextStream(response, request.onChunk);
       }
+
+      content = requireMeaningfulContent(content);
 
       return {
         id: createRemoteResponseId(),

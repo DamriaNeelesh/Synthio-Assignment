@@ -63,6 +63,7 @@ export default function App() {
     stopGeneration,
   } = useChatController();
   const isOnline = useOnlineStatus();
+  const isMobileLayout = useMediaQuery('(max-width: 767px)');
   const isVoiceModal = useMediaQuery('(max-width: 1179px)');
   const [sidebarOpen, setSidebarOpen] = useState(() =>
     window.matchMedia('(min-width: 768px)').matches,
@@ -194,6 +195,9 @@ export default function App() {
     : false;
   const visibleSidebarOpen =
     sidebarOpen && !(voiceOpen && isVoiceModal);
+  const isWorkspaceBlocked =
+    (voiceOpen && isVoiceModal) ||
+    (visibleSidebarOpen && isMobileLayout);
 
   function handleNewConversation() {
     createConversation();
@@ -244,7 +248,7 @@ export default function App() {
     const transcript = activeConversation.messages
       .map(
         (message) =>
-          `${message.role === 'assistant' ? 'Synthex' : 'You'}: ${message.content}`,
+          `${message.role === 'assistant' ? 'Synthio Assistant' : 'You'}: ${message.content}`,
       )
       .join('\n\n');
     try {
@@ -268,10 +272,10 @@ export default function App() {
       ].join(' ')}
     >
       <a
-        aria-hidden={voiceOpen && isVoiceModal ? true : undefined}
+        aria-hidden={isWorkspaceBlocked ? true : undefined}
         className="skip-link"
         href="#conversation"
-        tabIndex={voiceOpen && isVoiceModal ? -1 : undefined}
+        tabIndex={isWorkspaceBlocked ? -1 : undefined}
       >
         Skip to conversation
       </a>
@@ -284,28 +288,26 @@ export default function App() {
         onClose={() => setSidebarOpen(false)}
         onDeleteConversation={handleDeleteConversation}
         onNewConversation={handleNewConversation}
-        onOpenProfile={() => showToast('Profile controls are ready to connect')}
-        onOpenSettings={() =>
-          showToast('Settings are ready to connect to your account')
-        }
         onRenameConversation={renameConversation}
         onSelectConversation={handleSelectConversation}
       />
 
       {visibleSidebarOpen ? (
         <button
+          aria-hidden="true"
           aria-label="Close conversation sidebar"
           className="sidebar-backdrop"
           onClick={() => setSidebarOpen(false)}
+          tabIndex={-1}
           type="button"
         />
       ) : null}
 
       <main
-        aria-hidden={voiceOpen && isVoiceModal ? true : undefined}
+        aria-hidden={isWorkspaceBlocked ? true : undefined}
         className="workspace"
         id="conversation"
-        inert={voiceOpen && isVoiceModal}
+        inert={isWorkspaceBlocked}
       >
         <AppHeader
           isFavorite={isFavorite}
@@ -315,7 +317,7 @@ export default function App() {
           onStartVoice={handleOpenVoice}
           onToggleFavorite={handleToggleFavorite}
           onToggleSidebar={() => setSidebarOpen((open) => !open)}
-          statusLabel={isOnline ? 'Online' : 'Offline · mock ready'}
+          statusLabel={isOnline ? 'Online' : 'Offline'}
           title={activeConversation?.title ?? 'New conversation'}
         />
 

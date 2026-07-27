@@ -30,14 +30,14 @@ function createState(): ConversationState {
     conversations: [
       {
         id: 'conversation-1',
-        title: 'Saved conversation',
+        title: 'Saved Jarvis workflow',
         createdAt: '2026-07-28T10:00:00.000Z',
         updatedAt: '2026-07-28T10:01:00.000Z',
         messages: [
           {
             id: 'message-1',
             role: 'assistant',
-            content: 'Saved response',
+            content: 'Saved approved-content summary',
             createdAt: '2026-07-28T10:01:00.000Z',
             status: 'complete',
           },
@@ -59,6 +59,9 @@ describe('conversation storage', () => {
       version: CONVERSATION_STORAGE_VERSION,
     });
     expect(loadConversationState(storage)).toEqual(state);
+    expect(CONVERSATION_STORAGE_KEY).toBe(
+      'synthio.assignment.conversations',
+    );
   });
 
   it('recovers an in-flight response as a retryable interruption', () => {

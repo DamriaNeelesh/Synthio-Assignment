@@ -132,7 +132,7 @@ export function ChatComposer({
         ) : null}
 
         <textarea
-          aria-label="Message Synthex"
+          aria-label="Message Synthio Assistant"
           autoComplete="off"
           className="composer__input"
           disabled={isGenerating}
@@ -140,7 +140,9 @@ export function ChatComposer({
           onChange={handleDraftChange}
           onKeyDown={handleKeyDown}
           placeholder={
-            isGenerating ? 'Synthex is responding…' : 'Ask anything…'
+            isGenerating
+              ? 'Synthio Assistant is responding…'
+              : 'Ask about a synthetic life-sciences workflow…'
           }
           ref={textareaRef}
           rows={1}
@@ -207,7 +209,8 @@ export function ChatComposer({
         ) : null}
       </form>
       <p className="composer__disclaimer">
-        Synthex can make mistakes. Check important information.
+        Synthetic demo only. Verify approved content and escalate safety
+        concerns.
       </p>
     </div>
   );

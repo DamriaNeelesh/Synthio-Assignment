@@ -9,7 +9,7 @@ export function TypingIndicator() {
       <span aria-hidden="true" />
       <span aria-hidden="true" />
       <span aria-hidden="true" />
-      <span className="visually-hidden">Synthex is thinking</span>
+      <span className="visually-hidden">Synthio Assistant is thinking</span>
     </span>
   );
 }

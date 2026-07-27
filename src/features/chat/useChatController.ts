@@ -130,7 +130,7 @@ export function useChatController() {
             ? error
             : new ChatApiError(
                 'request_failed',
-                'Synthex could not complete that response.',
+                'Synthio Assistant could not complete that response.',
                 { cause: error, retryable: true },
               );
 

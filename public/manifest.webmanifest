@@ -1,7 +1,7 @@
 {
-  "name": "Synthex AI Assistant",
-  "short_name": "Synthex",
-  "description": "Fast text and voice conversations with an AI assistant.",
+  "name": "Synthio Labs AI Assistant",
+  "short_name": "Synthio Labs",
+  "description": "A responsive assignment prototype for synthetic life-sciences text and voice workflows.",
   "start_url": ".",
   "scope": ".",
   "display": "standalone",
@@ -9,7 +9,7 @@
   "theme_color": "#080b12",
   "icons": [
     {
-      "src": "./synthex-mark.svg",
+      "src": "./synthio-mark.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"

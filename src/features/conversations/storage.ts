@@ -7,8 +7,8 @@ import type {
 } from '../../types';
 import { createSeededConversationState } from './seed';
 
-export const CONVERSATION_STORAGE_KEY = 'synthex.conversations';
-export const CONVERSATION_STORAGE_VERSION = 1;
+export const CONVERSATION_STORAGE_KEY = 'synthio.assignment.conversations';
+export const CONVERSATION_STORAGE_VERSION = 2;
 
 export interface ConversationStorage {
   getItem(key: string): string | null;

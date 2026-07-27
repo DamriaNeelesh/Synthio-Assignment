@@ -21,7 +21,7 @@ export class ErrorBoundary extends Component<
   }
 
   componentDidCatch(error: Error, info: ErrorInfo) {
-    console.error('Synthex app error', error, info.componentStack);
+    console.error('Synthio Assistant app error', error, info.componentStack);
   }
 
   render() {
@@ -32,7 +32,7 @@ export class ErrorBoundary extends Component<
     return (
       <main className="fatal-error">
         <div className="fatal-error__card">
-          <BrandMark height={42} title="Synthex" width={42} />
+          <BrandMark height={42} title="Synthio Labs" width={42} />
           <AlertTriangle aria-hidden="true" size={24} strokeWidth={1.8} />
           <h1>Something interrupted the conversation</h1>
           <p>
@@ -41,7 +41,7 @@ export class ErrorBoundary extends Component<
           </p>
           <button onClick={() => window.location.reload()} type="button">
             <RotateCcw aria-hidden="true" size={17} strokeWidth={2} />
-            Reload Synthex
+            Reload Synthio Assistant
           </button>
         </div>
       </main>

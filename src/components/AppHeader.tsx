@@ -51,7 +51,7 @@ export function AppHeader({
         <BrandMark className="app-header__brand-mark" height={30} width={30} />
 
         <div className="app-header__identity">
-          <span className="app-header__brand-name">Synthex</span>
+          <span className="app-header__brand-name">Synthio Labs</span>
           <div className="app-header__title-row">
             <h1 className="app-header__title">{title}</h1>
             <ChevronDown

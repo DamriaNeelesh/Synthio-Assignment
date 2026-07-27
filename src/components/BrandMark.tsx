@@ -10,7 +10,7 @@ export interface BrandMarkProps
 }
 
 /**
- * Synthex's code-native spark mark.
+ * Code-native concept mark for this independent Synthio Labs assignment.
  *
  * The paths use `currentColor`, so the mark can inherit any theme or state
  * color without needing a second asset.

@@ -1,4 +1,4 @@
-import { Lightbulb, ListChecks, Sparkles } from 'lucide-react';
+import { BarChart3, FlaskConical, Stethoscope } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 import { BrandMark } from '../../components/BrandMark';
 import type { Conversation } from '../../types';
@@ -16,19 +16,22 @@ interface ChatViewProps {
 
 const STARTER_PROMPTS = [
   {
-    icon: Lightbulb,
-    label: 'Shape a product idea',
-    prompt: 'Help me turn a rough product idea into a focused one-page plan.',
+    icon: Stethoscope,
+    label: 'Prepare a field call',
+    prompt:
+      'Create a Jarvis-style pre-call brief from a fictional CRM record. Use only approved content and include follow-up and compliance checkpoints.',
   },
   {
-    icon: ListChecks,
-    label: 'Build an action plan',
-    prompt: 'Create a practical action plan for my highest-priority goal.',
+    icon: FlaskConical,
+    label: 'Test a scientific exchange',
+    prompt:
+      'Show how Ather should handle a fictional HCP scientific question that may be off-label, including audit and escalation steps.',
   },
   {
-    icon: Sparkles,
-    label: 'Improve my writing',
-    prompt: 'Help me make an important message clearer and more persuasive.',
+    icon: BarChart3,
+    label: 'Explore commercial data',
+    prompt:
+      'Show how Polaris HQ would answer a commercial question across synthetic field and access data without inventing unsupported findings.',
   },
 ] as const;
 
@@ -68,7 +71,7 @@ export function ChatView({
   const hasMessages = Boolean(conversation?.messages.length);
 
   return (
-    <section className="chat-view" aria-label="Chat with Synthex">
+    <section className="chat-view" aria-label="Chat with Synthio Assistant">
       <div
         aria-live="polite"
         aria-relevant="additions text"
@@ -95,9 +98,10 @@ export function ChatView({
               <div aria-hidden="true" className="chat-empty__mark">
                 <BrandMark height={38} width={38} />
               </div>
-              <h2>What can I help you think through?</h2>
+              <h2>What should we explore across life sciences?</h2>
               <p>
-                Start with a question, a rough idea, or the outcome you want.
+                Try a synthetic field, HCP, patient-support, research, or
+                commercial workflow. Never enter real patient or HCP data.
               </p>
               <div className="chat-empty__prompts">
                 {STARTER_PROMPTS.map(({ icon: PromptIcon, label, prompt }) => (

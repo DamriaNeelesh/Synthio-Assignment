@@ -3,11 +3,15 @@ import { joinTranscript, mapRecognitionError } from './voiceBrowser';
 
 describe('voiceBrowser utilities', () => {
   it('joins transcript fragments without duplicate whitespace', () => {
-    expect(joinTranscript('', '  hello there  ')).toBe('hello there');
-    expect(joinTranscript('hello there', ' how are you? ')).toBe(
-      'hello there how are you?',
+    expect(joinTranscript('', '  approved content  ')).toBe(
+      'approved content',
     );
-    expect(joinTranscript('hello there', '  ')).toBe('hello there');
+    expect(
+      joinTranscript('approved content', ' with source references '),
+    ).toBe('approved content with source references');
+    expect(joinTranscript('approved content', '  ')).toBe(
+      'approved content',
+    );
   });
 
   it('maps a denied permission to the safe demo fallback error', () => {

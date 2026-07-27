@@ -276,7 +276,15 @@ export function useVoiceCall(
       recognition.onstart = () => {
         recognitionRunningRef.current = true;
 
-        if (!mountedRef.current || !activeRef.current) {
+        if (
+          !mountedRef.current ||
+          !activeRef.current ||
+          mutedRef.current ||
+          speakingRef.current ||
+          awaitingResponseRef.current ||
+          modeRef.current !== 'live'
+        ) {
+          safelyAbortRecognition();
           return;
         }
 
@@ -299,7 +307,14 @@ export function useVoiceCall(
       };
 
       recognition.onresult = (event: BrowserSpeechRecognitionEvent) => {
-        if (!mountedRef.current || !activeRef.current || mutedRef.current) {
+        if (
+          !mountedRef.current ||
+          !activeRef.current ||
+          mutedRef.current ||
+          speakingRef.current ||
+          awaitingResponseRef.current ||
+          modeRef.current !== 'live'
+        ) {
           return;
         }
 

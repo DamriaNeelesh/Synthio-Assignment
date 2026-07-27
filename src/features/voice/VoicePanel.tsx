@@ -235,7 +235,7 @@ export function VoicePanel({
             {status === 'connecting'
               ? 'Preparing your microphone…'
               : status === 'disconnected'
-                ? 'Start a call to talk with Synthex.'
+                ? 'Start a call to talk with Synthio Assistant.'
                 : isMuted
                   ? 'Microphone muted'
                   : mode === 'demo'
@@ -248,7 +248,7 @@ export function VoicePanel({
           <div className="voice-transcript__entry voice-transcript__entry--assistant">
             <div className="voice-transcript__speaker">
               <BrandMark height={18} width={18} />
-              <span>Synthex</span>
+              <span>Synthio Assistant</span>
             </div>
             <p>{assistantTranscript}</p>
           </div>
@@ -257,7 +257,7 @@ export function VoicePanel({
 
       <Waveform active={waveformActive && !isMuted} />
 
-      {error && mode === 'demo' ? (
+      {error ? (
         <p
           aria-live="polite"
           className="voice-panel__notice"

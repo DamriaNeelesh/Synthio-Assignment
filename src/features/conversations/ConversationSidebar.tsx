@@ -101,7 +101,7 @@ export function ConversationSidebar({
   onOpenSettings,
   onRenameConversation,
   onSelectConversation,
-  user = { initials: 'JS', name: 'Jane Smith' },
+  user = { initials: 'SL', name: 'Demo workspace' },
 }: ConversationSidebarProps) {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [draftTitle, setDraftTitle] = useState('');
@@ -232,7 +232,9 @@ export function ConversationSidebar({
       <div className="conversation-sidebar__header">
         <div className="conversation-sidebar__brand">
           <BrandMark className="conversation-sidebar__brand-mark" />
-          <span className="conversation-sidebar__brand-name">Synthex</span>
+          <span className="conversation-sidebar__brand-name">
+            Synthio Labs
+          </span>
         </div>
         <IconButton
           className="conversation-sidebar__close"
@@ -428,15 +430,16 @@ export function ConversationSidebar({
       </nav>
 
       <div className="conversation-sidebar__footer">
-        <button
-          className="conversation-sidebar__settings"
-          disabled={!onOpenSettings}
-          onClick={onOpenSettings}
-          type="button"
-        >
-          <Settings aria-hidden="true" size={22} strokeWidth={1.7} />
-          <span>Settings</span>
-        </button>
+        {onOpenSettings ? (
+          <button
+            className="conversation-sidebar__settings"
+            onClick={onOpenSettings}
+            type="button"
+          >
+            <Settings aria-hidden="true" size={22} strokeWidth={1.7} />
+            <span>Settings</span>
+          </button>
+        ) : null}
 
         {onOpenProfile ? (
           <button

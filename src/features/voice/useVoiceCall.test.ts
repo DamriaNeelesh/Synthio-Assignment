@@ -164,20 +164,22 @@ describe('useVoiceCall', () => {
     expect(recognition).not.toBeNull();
 
     act(() => {
-      recognition?.emitResult('interim words', false);
+      recognition?.emitResult('approved content', false);
     });
-    expect(result.current.transcript.interim).toBe('interim words');
+    expect(result.current.transcript.interim).toBe('approved content');
     expect(onFinalTranscript).not.toHaveBeenCalled();
 
     act(() => {
-      recognition?.emitResult('final words', true);
+      recognition?.emitResult('Prepare a Jarvis pre-call brief', true);
     });
     expect(result.current.transcript).toEqual({
-      final: 'final words',
+      final: 'Prepare a Jarvis pre-call brief',
       interim: '',
     });
     expect(onFinalTranscript).toHaveBeenCalledOnce();
-    expect(onFinalTranscript).toHaveBeenCalledWith('final words');
+    expect(onFinalTranscript).toHaveBeenCalledWith(
+      'Prepare a Jarvis pre-call brief',
+    );
 
     act(() => {
       unmount();
@@ -199,11 +201,11 @@ describe('useVoiceCall', () => {
     expect(recognition?.startCount).toBe(1);
 
     act(() => {
-      recognition?.emitResult('What should we build?', true);
+      recognition?.emitResult('Prepare a synthetic HCP brief', true);
     });
 
     expect(onFinalTranscript).toHaveBeenCalledWith(
-      'What should we build?',
+      'Prepare a synthetic HCP brief',
     );
     expect(result.current.status).toBe('connected');
     expect(recognition?.abortCount).toBe(1);
@@ -221,6 +223,63 @@ describe('useVoiceCall', () => {
 
     expect(recognition?.startCount).toBe(2);
     expect(result.current.status).toBe('listening');
+
+    act(() => {
+      result.current.endCall();
+    });
+  });
+
+  it('ignores late recognition callbacks while awaiting or speaking', () => {
+    const onFinalTranscript = vi.fn();
+    const { result } = renderHook(() =>
+      useVoiceCall({ onFinalTranscript }),
+    );
+
+    act(() => {
+      result.current.startCall();
+    });
+
+    const recognition = FakeSpeechRecognition.latest;
+
+    act(() => {
+      recognition?.emitResult('Prepare my HCP pre-call brief', true);
+    });
+
+    const abortCountAfterFinal = recognition?.abortCount ?? 0;
+    expect(onFinalTranscript).toHaveBeenCalledOnce();
+    expect(result.current.status).toBe('connected');
+
+    act(() => {
+      recognition?.onstart?.(new Event('start'));
+      recognition?.emitResult('Duplicate delayed transcript', true);
+    });
+
+    expect(recognition?.abortCount).toBeGreaterThan(abortCountAfterFinal);
+    expect(onFinalTranscript).toHaveBeenCalledOnce();
+    expect(result.current.transcript).toEqual({
+      final: 'Prepare my HCP pre-call brief',
+      interim: '',
+    });
+    expect(result.current.status).toBe('connected');
+
+    const abortCountBeforeSpeakingResult = recognition?.abortCount ?? 0;
+
+    act(() => {
+      void result.current.speak(
+        'Your synthetic field brief is ready for review.',
+      );
+      recognition?.onstart?.(new Event('start'));
+      recognition?.emitResult('Delayed audio during playback', true);
+    });
+
+    expect(recognition?.abortCount).toBeGreaterThan(
+      abortCountBeforeSpeakingResult,
+    );
+    expect(onFinalTranscript).toHaveBeenCalledOnce();
+    expect(result.current.transcript.final).toBe(
+      'Prepare my HCP pre-call brief',
+    );
+    expect(result.current.status).toBe('speaking');
 
     act(() => {
       result.current.endCall();
@@ -344,18 +403,20 @@ describe('useVoiceCall', () => {
     let completion = Promise.resolve();
 
     act(() => {
-      completion = result.current.speak('A concise spoken answer.');
+      completion = result.current.speak(
+        'Your approved-content summary is ready.',
+      );
     });
     expect(result.current.status).toBe('speaking');
     expect(result.current.error?.code).toBe('synthesis-unsupported');
 
     await act(async () => {
-      vi.advanceTimersByTime(1_000);
+      vi.advanceTimersByTime(4_000);
       await completion;
     });
 
     expect(onSpokenComplete).toHaveBeenCalledWith(
-      'A concise spoken answer.',
+      'Your approved-content summary is ready.',
     );
     expect(result.current.status).toBe('listening');
 
@@ -387,7 +448,9 @@ describe('useVoiceCall', () => {
     let completion = Promise.resolve();
 
     act(() => {
-      completion = result.current.speak('Native speech works.');
+      completion = result.current.speak(
+        'The synthetic Helix workflow is ready.',
+      );
     });
 
     expect(result.current.support.synthesis).toBe(true);
@@ -400,7 +463,9 @@ describe('useVoiceCall', () => {
     });
     await completion;
 
-    expect(onSpokenComplete).toHaveBeenCalledWith('Native speech works.');
+    expect(onSpokenComplete).toHaveBeenCalledWith(
+      'The synthetic Helix workflow is ready.',
+    );
     expect(result.current.status).toBe('listening');
     expect(cancel).toHaveBeenCalled();
 

@@ -5,10 +5,12 @@ import { MessageContent } from './MessageContent';
 describe('MessageContent', () => {
   it('renders plain text as a paragraph', () => {
     const { container } = render(
-      <MessageContent content="A concise answer for the user." />,
+      <MessageContent content="A concise, approved-content summary." />,
     );
 
-    const paragraph = screen.getByText('A concise answer for the user.');
+    const paragraph = screen.getByText(
+      'A concise, approved-content summary.',
+    );
     expect(paragraph).toHaveClass('message-content__paragraph');
     expect(container.querySelector('.message-content')?.children).toHaveLength(
       1,
@@ -19,8 +21,8 @@ describe('MessageContent', () => {
     render(
       <MessageContent
         content={[
-          '1. Discover — Talk to users',
-          '2. Decide — Choose the smallest useful scope',
+          '1. Ground — Use approved sources',
+          '2. Escalate — Route safety concerns',
         ].join('\n')}
       />,
     );
@@ -29,9 +31,9 @@ describe('MessageContent', () => {
     const items = within(list).getAllByRole('listitem');
 
     expect(items).toHaveLength(2);
-    expect(items[0]).toHaveTextContent('1DiscoverTalk to users');
+    expect(items[0]).toHaveTextContent('1GroundUse approved sources');
     expect(items[1]).toHaveTextContent(
-      '2DecideChoose the smallest useful scope',
+      '2EscalateRoute safety concerns',
     );
   });
 
@@ -39,12 +41,12 @@ describe('MessageContent', () => {
     const { container } = render(
       <MessageContent
         content={[
-          'Start with the customer outcome.',
+          'Start with the documented HCP need.',
           '',
-          '1. Discover — Talk to users',
-          '2. Decide — Choose the smallest useful scope',
+          '1. Ground — Use approved sources',
+          '2. Escalate — Route safety concerns',
           '',
-          'Finish by measuring what changed.',
+          'Finish with an auditable follow-up.',
         ].join('\n')}
       />,
     );
@@ -59,9 +61,9 @@ describe('MessageContent', () => {
       'P',
     ]);
     expect(children.map((element) => element.textContent)).toEqual([
-      'Start with the customer outcome.',
-      '1DiscoverTalk to users2DecideChoose the smallest useful scope',
-      'Finish by measuring what changed.',
+      'Start with the documented HCP need.',
+      '1GroundUse approved sources2EscalateRoute safety concerns',
+      'Finish with an auditable follow-up.',
     ]);
   });
 });
