@@ -1,0 +1,17 @@
+{
+  "name": "Synthex AI Assistant",
+  "short_name": "Synthex",
+  "description": "Fast text and voice conversations with an AI assistant.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#080b12",
+  "theme_color": "#080b12",
+  "icons": [
+    {
+      "src": "/synthex-mark.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
