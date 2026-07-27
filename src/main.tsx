@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import App from './App';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { ConversationProvider } from './features/conversations';
+import '@fontsource-variable/geist';
 import './styles.css';
 
 const root = document.getElementById('root');

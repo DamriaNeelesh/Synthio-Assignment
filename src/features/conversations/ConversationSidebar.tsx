@@ -21,7 +21,7 @@ import {
   type MouseEvent,
   type ReactNode,
 } from 'react';
-import { BrandMark } from '../../components/BrandMark';
+import { BrandLogo } from '../../components/BrandLogo';
 import { IconButton } from '../../components/IconButton';
 
 export type ConversationIcon =
@@ -231,10 +231,7 @@ export function ConversationSidebar({
     >
       <div className="conversation-sidebar__header">
         <div className="conversation-sidebar__brand">
-          <BrandMark className="conversation-sidebar__brand-mark" />
-          <span className="conversation-sidebar__brand-name">
-            Synthio Labs
-          </span>
+          <BrandLogo className="conversation-sidebar__brand-logo" />
         </div>
         <IconButton
           className="conversation-sidebar__close"

@@ -1,13 +1,13 @@
-# Design fidelity ledger
+# Brand and design fidelity ledger
 
-The
-[desktop concept](synthio-desktop-concept.png) and
-[mobile concept](synthio-mobile-concept.png)
-were used as the visual contract for the Synthio Labs AI Assistant prototype.
-This ledger records the implementation decisions and available review evidence.
+The supplied logo reference and public Synthio Labs website form the identity
+reference for this independent prototype. This ledger records the implementation
+decisions and available review evidence.
 
-| Comparison point | Concept evidence | Implementation evidence | Resolution |
+| Comparison point | Reference evidence | Implementation evidence | Resolution |
 | --- | --- | --- | --- |
+| Brand identity | Supplied black wordmark reference plus the public website's white and dark SVG wordmarks and product icon | `BrandLogo.tsx` and `BrandMark.tsx` self-host the official public assets; responsive CSS switches between full wordmark and compact mark without distorting either | Preserved |
+| Typography | The public Synthio Labs site uses Geist for interface and body content | `@fontsource-variable/geist` is bundled locally and `Geist Variable` leads the application font stack | Preserved without a runtime font request |
 | Three-surface desktop shell | Persistent session rail, central chat, and voice panel share one full-height canvas | `App.tsx` composes the sidebar and workspace; `styles.css` uses a flex shell with fixed sidebar/voice widths and a fluid chat column | Preserved |
 | Information hierarchy | Synthio Labs branding, conversation title, and availability lead the chat; utility actions remain secondary | `AppHeader.tsx` uses one heading, a status group, and compact labelled actions | Preserved with accessible labels |
 | Message roles | Synthio Assistant content is left-aligned with an identity mark; user content uses a compact right-aligned bubble | `MessageBubble.tsx` keeps semantic articles, delivery metadata, copy, error, retry, and streaming states | Preserved and extended |
@@ -19,17 +19,22 @@ This ledger records the implementation decisions and available review evidence.
 
 ## Verification record
 
-- Both generated concepts were inspected at original resolution.
+- The supplied logo reference and official public SVG/PNG assets were inspected
+  at original resolution before integration.
 - The release gate covers lint, strict TypeScript, the automated Vitest suite,
   and a production build. Deployment checks cover the Vercel and GitHub Pages
   outputs.
 - An earlier `1280x720` interaction smoke covered initial rendering,
   Enter-to-send, streaming output, deterministic `/error` and retry behavior,
   and a clean console.
-- A fresh in-app-browser screenshot pass was attempted against both public
-  deployments. The managed browser rejected the hosting domains under its
-  enterprise network policy, so no fresh implementation screenshot is claimed
-  as evidence. No alternative browser surface was used to bypass that policy.
+- The final brand pass is checked locally with Playwright at `1440×900`,
+  `430×900`, `390×844`, `320×640`, and a short `667×320` voice layout.
+  Breakpoint checks also cover `375`, `420`, `768`, `860`, `1179`, and `1180`
+  pixels without header collisions or horizontal overflow. The managed
+  in-app browser was unavailable for this pass, so local rendered QA used
+  Playwright; an earlier hosted-site pass was also blocked by enterprise
+  network policy. Two verified implementation screenshots are committed for
+  the reviewer-facing README; transient snapshots remain ignored QA artifacts.
 
 ## Intentional deviations
 

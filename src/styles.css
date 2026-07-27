@@ -1,7 +1,7 @@
 :root {
   color-scheme: dark;
   font-family:
-    Inter, Geist, "SF Pro Text", "Segoe UI", system-ui, -apple-system,
+    "Geist Variable", Geist, "Segoe UI", system-ui, -apple-system,
     BlinkMacSystemFont, sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -233,14 +233,16 @@ button:disabled {
 }
 
 .brand-mark {
-  overflow: visible;
-  color: var(--accent-bright);
+  display: block;
+  flex: none;
+  border-radius: 28%;
+  object-fit: cover;
 }
 
-.brand-mark__rays {
-  stroke-linecap: round;
-  stroke-width: 1.8;
-  opacity: 0.95;
+.brand-logo {
+  display: block;
+  max-width: 100%;
+  height: auto;
 }
 
 /* Sidebar */
@@ -282,19 +284,10 @@ button:disabled {
 .conversation-sidebar__brand {
   display: flex;
   align-items: center;
-  gap: 11px;
 }
 
-.conversation-sidebar__brand-mark {
-  width: 32px;
-  height: 32px;
-}
-
-.conversation-sidebar__brand-name {
-  color: #fafaff;
-  font-size: 21px;
-  font-weight: 650;
-  letter-spacing: -0.03em;
+.conversation-sidebar__brand-logo {
+  width: 145px;
 }
 
 .conversation-sidebar__close {
@@ -645,9 +638,15 @@ button.conversation-sidebar__profile:hover {
   display: inline-grid;
 }
 
-.app-header__brand-mark,
-.app-header__brand-name {
+.app-header__brand-icon,
+.app-header__brand-logo {
   display: none;
+}
+
+.app-shell--sidebar-closed .app-header__brand-logo {
+  display: block;
+  width: 112px;
+  margin-bottom: 4px;
 }
 
 .app-header__identity {
@@ -771,15 +770,14 @@ button.conversation-sidebar__profile:hover {
   height: 42px;
   flex: none;
   place-items: center;
-  border: 1px solid var(--line-strong);
-  border-radius: 50%;
-  background:
-    radial-gradient(
-      circle at 50% 50%,
-      rgba(112, 114, 255, 0.11),
-      transparent 72%
-    ),
-    var(--surface-soft);
+  border-radius: 13px;
+  background: transparent;
+}
+
+.message__avatar .brand-mark {
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 8px 22px rgba(81, 97, 255, 0.2);
 }
 
 .message__column {
@@ -1018,16 +1016,12 @@ button.conversation-sidebar__profile:hover {
   height: 68px;
   place-items: center;
   margin: 0 auto 21px;
-  border: 1px solid rgba(148, 150, 255, 0.25);
-  border-radius: 22px;
-  background:
-    radial-gradient(
-      circle at 50% 45%,
-      rgba(116, 118, 255, 0.2),
-      transparent 70%
-    ),
-    var(--surface-soft);
-  box-shadow: 0 15px 40px rgba(55, 59, 142, 0.13);
+}
+
+.chat-empty__mark .brand-mark {
+  width: 60px;
+  height: 60px;
+  box-shadow: 0 15px 40px rgba(55, 59, 142, 0.26);
 }
 
 .chat-empty h2 {
@@ -1369,19 +1363,17 @@ button.conversation-sidebar__profile:hover {
   width: 116px;
   height: 116px;
   place-items: center;
-  border: 1px solid rgba(226, 226, 255, 0.68);
-  border-radius: 47% 53% 50% 48% / 52% 46% 54% 48%;
-  background:
-    radial-gradient(circle at 34% 27%, #aaaaff 0, transparent 28%),
-    radial-gradient(circle at 63% 70%, #6263e9 0, transparent 45%),
-    linear-gradient(145deg, #8587ff, #5e60e5);
+  border: 0;
+  background: transparent;
+  animation: orb-breathe 3.2s ease-in-out infinite;
+}
+
+.voice-orb__core .brand-mark {
+  width: calc(100% - 12px);
+  height: calc(100% - 12px);
   box-shadow:
     0 0 0 7px rgba(139, 140, 255, 0.07),
-    0 0 34px rgba(117, 119, 255, 0.48),
-    inset -10px -12px 28px rgba(44, 45, 148, 0.3),
-    inset 10px 9px 23px rgba(255, 255, 255, 0.2);
-  color: #f1f0ff;
-  animation: orb-breathe 3.2s ease-in-out infinite;
+    0 0 38px rgba(90, 108, 255, 0.46);
 }
 
 .voice-orb--listening .voice-orb__ring--one,
@@ -1877,17 +1869,10 @@ button.conversation-sidebar__profile:hover {
     display: inline-grid;
   }
 
-  .app-header__brand-mark {
+  .app-header__brand-logo {
     display: block;
-    width: 27px;
-    height: 27px;
-  }
-
-  .app-header__brand-name {
-    display: block;
-    color: var(--muted);
-    font-size: 10px;
-    font-weight: 580;
+    width: 96px;
+    margin-bottom: 2px;
   }
 
   .app-header__title {
@@ -1929,8 +1914,8 @@ button.conversation-sidebar__profile:hover {
   }
 
   .message__avatar .brand-mark {
-    width: 21px;
-    height: 21px;
+    width: 100%;
+    height: 100%;
   }
 
   .message__body {
@@ -2104,8 +2089,14 @@ button.conversation-sidebar__profile:hover {
 }
 
 @media (max-width: 420px) {
-  .app-header__brand-mark {
+  .app-shell .app-header__brand-logo {
     display: none;
+  }
+
+  .app-header__brand-icon {
+    display: block;
+    width: 28px;
+    height: 28px;
   }
 
   .app-header__title {
@@ -2243,11 +2234,6 @@ button.conversation-sidebar__profile:hover {
     height: 54px;
   }
 
-  .voice-orb__core .brand-mark {
-    width: 28px;
-    height: 28px;
-  }
-
   .voice-orb__ring--one {
     width: 68px;
     height: 68px;
@@ -2371,11 +2357,6 @@ button.conversation-sidebar__profile:hover {
   .voice-orb__core {
     width: 76px;
     height: 76px;
-  }
-
-  .voice-orb__core .brand-mark {
-    width: 36px;
-    height: 36px;
   }
 
   .voice-orb__ring--one {

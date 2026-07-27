@@ -1,8 +1,8 @@
 # Synthio Labs AI Assistant design system
 
-The implementation follows the desktop and mobile concepts in this directory.
-It presents Synthio Assistant as a focused life-sciences workflow companion,
-while remaining clearly identified as an independent assignment prototype.
+The implementation applies the public Synthio Labs wordmark, product icon, and
+Geist typography to a focused life-sciences workflow companion. It remains
+clearly identified as an independent assignment prototype.
 
 ## Direction
 
@@ -38,11 +38,23 @@ while remaining clearly identified as an independent assignment prototype.
 
 ## Typography
 
-- UI and content use an Inter-compatible system stack.
+- UI and content use the self-hosted `Geist Variable` package, with
+  `Geist`, `Segoe UI`, and system sans-serif fallbacks.
 - Conversation title: `18px-22px` at weight `650`.
 - Body: `15px / 1.55`.
 - Utility labels: `12px-13px` at weight `550`.
 - Mobile interactive targets: minimum `44px`.
+
+## Brand assets
+
+- The full wordmark uses the official white SVG on dark application surfaces
+  and the official dark SVG in light documentation contexts.
+- Compact avatars, voice states, and application icons use the official public
+  Synthio Labs product mark.
+- Wordmarks always preserve their intrinsic aspect ratio; the product mark is
+  used when a square identity surface is required.
+- Assets are self-hosted under `public/` to avoid a runtime dependency on the
+  company website.
 
 ## Component families
 

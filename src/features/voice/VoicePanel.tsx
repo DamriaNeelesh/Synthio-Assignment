@@ -209,7 +209,7 @@ export function VoicePanel({
         <span className="voice-orb__ring voice-orb__ring--two" />
         <span className="voice-orb__ring voice-orb__ring--three" />
         <span className="voice-orb__core">
-          <BrandMark height={48} width={48} />
+          <BrandMark height={104} width={104} />
         </span>
       </div>
 

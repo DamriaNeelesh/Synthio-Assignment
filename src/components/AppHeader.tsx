@@ -6,6 +6,7 @@ import {
   Share2,
   Star,
 } from 'lucide-react';
+import { BrandLogo } from './BrandLogo';
 import { BrandMark } from './BrandMark';
 import { IconButton } from './IconButton';
 
@@ -48,10 +49,15 @@ export function AppHeader({
           <Menu size={24} strokeWidth={1.8} />
         </IconButton>
 
-        <BrandMark className="app-header__brand-mark" height={30} width={30} />
+        <BrandMark
+          className="app-header__brand-icon"
+          height={30}
+          title="Synthio Labs"
+          width={30}
+        />
 
         <div className="app-header__identity">
-          <span className="app-header__brand-name">Synthio Labs</span>
+          <BrandLogo className="app-header__brand-logo" />
           <div className="app-header__title-row">
             <h1 className="app-header__title">{title}</h1>
             <ChevronDown

@@ -1,56 +1,231 @@
-# Synthio Labs AI Assistant
+<p align="center">
+  <picture>
+    <source
+      media="(prefers-color-scheme: dark)"
+      srcset="public/synthio-logo-white.svg"
+    />
+    <img
+      src="public/synthio-logo-dark.svg"
+      alt="Synthio Labs"
+      width="220"
+    />
+  </picture>
+</p>
 
-A responsive React + TypeScript assignment prototype for fast, multimodal
-life-sciences conversations. It combines streaming text chat, browser voice
-interaction, persistent sessions, domain-aware demo scenarios, and resilient
-error handling in one polished workspace.
+<h1 align="center">Multimodal AI Assistant</h1>
 
-[**Open the Vercel demo**](https://synthio-labs-assistant.vercel.app) ·
-[GitHub Pages mirror](https://damrianeelesh.github.io/Synthio-Assignment/) ·
-[CI pipeline](https://github.com/DamriaNeelesh/Synthio-Assignment/actions/workflows/deploy-pages.yml)
+<p align="center">
+  A fast, responsive React + TypeScript interview assignment for text chat,
+  voice interaction, and persistent conversation sessions.
+</p>
 
-![Synthio Labs AI Assistant desktop concept](docs/design/synthio-desktop-concept.png)
+<p align="center">
+  <a href="https://synthio-labs-assistant.vercel.app"><strong>Open the live demo →</strong></a>
+  ·
+  <a href="https://damrianeelesh.github.io/Synthio-Assignment/">GitHub Pages mirror</a>
+  ·
+  <a href="https://github.com/DamriaNeelesh/Synthio-Assignment/actions/workflows/deploy-pages.yml">CI pipeline</a>
+</p>
 
-> This is an independent interview assignment inspired by workflows described
-> on the public [Synthio Labs website](https://synthiolabs.com/). It is not an
-> official Synthio Labs product or production medical system. Every seeded
-> person, organization, conversation, and metric is synthetic. The prototype
-> contains no PHI or real HCP data, provides no medical advice, and does not
-> connect to real CRM, clinical, safety, or patient-support systems.
+<p align="center">
+  <a href="https://github.com/DamriaNeelesh/Synthio-Assignment/actions/workflows/deploy-pages.yml">
+    <img
+      src="https://github.com/DamriaNeelesh/Synthio-Assignment/actions/workflows/deploy-pages.yml/badge.svg"
+      alt="Quality gate and GitHub Pages deployment status"
+    />
+  </a>
+</p>
 
-## Why this demo is domain-aware
+> **Independent prototype:** This is an interview assignment inspired by
+> publicly described [Synthio Labs](https://synthiolabs.com/) workflow themes.
+> It is not an official Synthio Labs product or a production medical system.
+> Every person, organization, conversation, and metric in the demo is
+> synthetic.
 
-The seeded conversations and mock responses make the assignment immediately
-relevant to Synthio Labs' public product areas:
+![Synthio Labs AI Assistant with persistent chat and an active voice session](docs/design/synthio-assistant-desktop.png)
 
-- [Jarvis](https://synthiolabs.com/jarvis): field-team pre-call preparation and
-  structured post-call note capture.
-- [Ather](https://synthiolabs.com/ather): HCP engagement grounded in approved
-  content, with safe escalation for unsupported or off-label questions.
-- [Helix](https://synthiolabs.com/helix): patient-support workflow examples for
-  onboarding, access, and adherence, using synthetic non-clinical data.
-- [Simulation Studio](https://synthiolabs.com/simulation-studio): synthetic HCP
-  and patient personas for message and concept testing.
-- [Polaris HQ](https://synthiolabs.com/polaris-hq): natural-language questions
-  over fictional commercial data, with traceable assumptions.
+<p align="center">
+  <sub>Actual application UI — persistent sessions, structured chat, and the
+  voice experience running together at 1440×900.</sub>
+</p>
 
-These are reviewer-friendly scenarios, not claims that this prototype
-implements the production capabilities, data sources, compliance controls, or
-integrations of the referenced products.
+## 60-second overview
+
+| Reviewer question | Answer |
+| --- | --- |
+| What does it demonstrate? | A complete text-and-voice assistant with session management, streaming responses, browser speech integration, responsive layouts, and resilient errors. |
+| Can I test it immediately? | Yes. The default mock mode needs no account, API key, backend, or environment file. |
+| Why is it relevant to Synthio Labs? | Five synthetic scenarios mirror the public workflow themes of Jarvis, Ather, Helix, Simulation Studio, and Polaris HQ without claiming access to their production systems. |
+| Is the architecture production-minded? | Strict TypeScript, feature boundaries, reducer-driven state, runtime-validated persistence, typed API adapters, accessible UI semantics, and recoverable failure states. |
+| How is it verified? | 63 automated tests, lint, strict type checking, a production build, zero dependency vulnerabilities, and Playwright checks across desktop, mobile, breakpoint, and short-landscape layouts. |
+| Where is it deployed? | Vercel is the primary demo; GitHub Pages is an independently built mirror. The repository is also Netlify-ready. |
+
+## Five-minute evaluator flow
+
+1. Open the [Vercel demo](https://synthio-labs-assistant.vercel.app).
+2. Switch between the seeded Jarvis, Ather, Helix, Simulation Studio, and
+   Polaris HQ conversations.
+3. Create a new conversation and submit a message with `Enter`; watch the
+   assistant response stream into the history.
+4. Start a voice conversation. Allow microphone access when available, or
+   inspect the clearly labelled safe demo fallback.
+5. Rename or switch a conversation, refresh the page, and confirm that the
+   active session and history are restored.
+6. Send `/error` to exercise the deterministic inline error and retry path.
+7. Resize to a narrow viewport and test the session drawer, composer, and
+   full-screen voice interface.
+8. Clone the repository and run `npm ci && npm run check` for the complete
+   local release gate.
+
+## What stands out
+
+- **Fast by default:** immediate local updates, incremental mock streaming, a
+  compact production bundle, and no backend round-trip in the zero-setup
+  evaluator path.
+- **One coherent multimodal experience:** chat history, session state, live
+  transcript, speech playback, mute/resume, and end-call behavior share the
+  same responsive workspace.
+- **Honest capability handling:** unsupported speech recognition or denied
+  microphone access becomes an explicit demo mode—never a fabricated
+  transcript.
+- **Domain-aware without overclaiming:** reviewer-ready life-sciences examples
+  use synthetic data, approved-content reminders, source traceability, and safe
+  escalation language.
+- **Failure-aware:** malformed storage, interrupted streams, remote API
+  failures, denied permissions, and unsupported browser features all have
+  intentional recovery paths.
+- **Accessible and responsive:** semantic landmarks, labelled icon controls,
+  keyboard workflows, focus containment/restoration, live regions,
+  touch-friendly targets, reduced-motion support, and layouts down to `320px`.
+
+<details>
+<summary><strong>See the responsive 430px session drawer</strong></summary>
+
+<p align="center">
+  <img
+    src="docs/design/synthio-assistant-mobile.png"
+    alt="Synthio Labs AI Assistant mobile conversation drawer"
+    width="430"
+  />
+</p>
+
+</details>
+
+## Assignment coverage
+
+| Requirement | Implementation |
+| --- | --- |
+| React + TypeScript | React 19, strict TypeScript, Vite, and reusable feature boundaries |
+| Message history | Versioned conversations persist locally and recover safely after refresh |
+| User and assistant bubbles | Distinct roles with streaming, complete, and failed/retryable states; interrupted requests remain retryable |
+| Enter and Send | Keyboard submission plus an explicit, labelled Send button |
+| Loading and errors | Incremental output, typing feedback, inline errors, retry metadata, and a top-level error boundary |
+| Start / End call | Start, mute, resume, and end controls backed by a typed call state machine |
+| Voice status | Connecting, Connected, Listening, Speaking, and Disconnected |
+| Live transcript | Interim and final Web Speech results when recognition is available |
+| Conversation sessions | Create, switch, rename, delete, favorite, and restore previous chats |
+| Chat API | Swappable mock and remote adapters behind one typed streaming contract |
+| Voice API | Browser speech recognition and synthesis isolated behind a dedicated adapter layer |
+| Responsive design | Desktop workspace, tablet overlay, mobile drawer, and full-screen call dialog |
+
+### Useful extras beyond the brief
+
+- Local `.txt`, `.md`, `.csv`, and `.json` context attachments up to 16 KB.
+- Deterministic `/error` command for fast reviewer testing.
+- Copy message, share conversation, favorites, and editable session names.
+- JSON, plain text, SSE, and NDJSON remote response parsing.
+- Versioned `localStorage` schema with runtime validation and recovery.
+- Web app manifest, favicons, GitHub Pages CI, Vercel, and Netlify config.
+
+## Synthio Labs workflow themes
+
+These scenarios are inspired by publicly described product themes. They
+demonstrate interaction design and safe workflow boundaries—not the production
+capabilities, data, compliance controls, or integrations of those products.
+
+| Public product theme | Synthetic demo scenario | UX demonstrated |
+| --- | --- | --- |
+| [Jarvis](https://synthiolabs.com/jarvis) | Pre-call preparation and a review-ready post-call note from a fictional CRM record | Structured context, approved-content prompts, follow-up ownership, and an audit trail |
+| [Ather](https://synthiolabs.com/ather) | A fictional HCP scientific question | Mock grounding, source traceability, response boundaries, and Medical Information escalation |
+| [Helix](https://synthiolabs.com/helix) | Fictional patient-support onboarding with no PHI | Access, onboarding, adherence-support steps, and non-clinical escalation |
+| [Simulation Studio](https://synthiolabs.com/simulation-studio) | Synthetic HCP and patient persona testing | Message feedback, concept comparison, and clearly labelled synthetic evidence |
+| [Polaris HQ](https://synthiolabs.com/polaris-hq) | Natural-language questions over fictional commercial metrics | Assumption-aware summaries and traceable next questions |
+
+## Architecture
+
+The project separates UI, state, browser capabilities, and data access so each
+boundary can be replaced or tested independently.
+
+```mermaid
+flowchart LR
+    UI["React UI<br/>Chat · Sessions · Voice"] --> Chat["useChatController"]
+    Chat --> Contract{"Typed ChatApi"}
+    Contract --> Mock["Mock streaming adapter"]
+    Contract --> Remote["Remote JSON / SSE / NDJSON adapter"]
+
+    UI --> State["Conversation reducer"]
+    State <--> Storage[("Validated localStorage")]
+
+    UI --> Voice["useVoiceCall"]
+    Voice --> Speech["Browser recognition<br/>and speech synthesis"]
+```
+
+```text
+src/
+├── components/                 Reusable app shell and brand components
+├── features/
+│   ├── chat/                   Composer, messages, controller, mock/remote APIs
+│   ├── conversations/          Reducer, persistence, seeds, provider, sidebar
+│   └── voice/                  Call state machine and browser speech boundary
+├── types/                      Shared domain models
+├── App.tsx                     Responsive feature composition
+└── styles.css                  Tokens, layouts, states, and motion
+```
+
+Network requests, storage, speech recognition, and speech synthesis stay behind
+dedicated boundaries. See [the architecture notes](docs/architecture.md) for
+state transitions, recovery behavior, and extension points.
+
+## Verified quality
+
+Latest release verification:
+
+| Check | Result |
+| --- | --- |
+| `npm run lint` | Passed |
+| `npm run typecheck` | Passed with strict TypeScript |
+| `npm test` | **63 / 63 tests passed** across 11 test files |
+| `npm run build` | Passed; production JS is 267.49 KB / 82.78 KB gzip and CSS is 34.12 KB / 8.24 KB gzip |
+| `npm audit --audit-level=high` | **0 vulnerabilities** |
+| Rendered browser QA | Zero console errors; chat and voice exercised at desktop, mobile, `320px`, breakpoint, and short-landscape viewports |
+| Responsive boundary matrix | No horizontal overflow or header collisions at `375`, `420`, `768`, `860`, `1179`, or `1180` pixels |
+
+The automated suite covers:
+
+- critical reviewer flows and Enter-to-send behavior;
+- conversation reducer transitions and persistence validation;
+- interrupted-stream recovery and retry metadata;
+- mock streaming, deterministic failures, and abort handling;
+- remote JSON, SSE, NDJSON, and plain-text parsing;
+- rich-message ordering and structured response blocks;
+- Web Speech capability/error mapping and voice lifecycle cleanup;
+- official brand asset paths, dimensions, and accessible semantics.
 
 ## Run locally
 
 **Prerequisite:** Node.js `^20.19.0`, `^22.12.0`, or `>=24.0.0`.
 
 ```bash
+git clone https://github.com/DamriaNeelesh/Synthio-Assignment.git
+cd Synthio-Assignment
 npm ci
 npm run dev
 ```
 
-Open [http://localhost:5173](http://localhost:5173). The default mock mode needs
-no environment file, API key, backend, or external service.
+Open [http://localhost:5173](http://localhost:5173). No environment variables
+are required for the default mock experience.
 
-To exercise the production output locally:
+To exercise the exact production output locally:
 
 ```bash
 npm run build
@@ -59,86 +234,83 @@ npm run preview
 
 Then open [http://localhost:4173](http://localhost:4173).
 
-## Assignment coverage
+### Commands
 
-| Requirement | Implementation |
+| Command | Purpose |
 | --- | --- |
-| React + TypeScript | React 19, strict TypeScript, Vite, and reusable feature boundaries |
-| Message history | Versioned conversations persist locally and recover safely after refresh |
-| User and assistant messages | Distinct roles with streaming, complete, cancelled, and failed states |
-| Enter and Send | Keyboard submission plus an explicit, labelled send control |
-| Loading and errors | Incremental output, cancellation, inline errors, retry metadata, and an error boundary |
-| Voice start/end | Start, mute, resume, and end controls backed by a call state machine |
-| Voice status | Connecting, Connected, Listening, Speaking, and Disconnected |
-| Live transcript | Interim and final Web Speech results when the browser supports recognition |
-| Conversation sessions | Create, switch, rename, delete, and restore previous chats |
-| Context attachments | Read small text-based files and include their content in a message |
-| API integration | Swappable mock and remote adapters behind one typed streaming contract |
-| Responsive UI | Desktop workspace, tablet overlay, mobile drawer, and full-screen call dialog |
+| `npm run dev` | Start the Vite development server |
+| `npm run lint` | Run ESLint |
+| `npm run typecheck` | Validate both TypeScript projects |
+| `npm test` | Run the Vitest suite once |
+| `npm run test:watch` | Run Vitest in watch mode |
+| `npm run build` | Type-check and generate `dist/` |
+| `npm run preview` | Serve the production build locally |
+| `npm run check` | Run lint, types, tests, and production build in sequence |
 
-## Five-minute evaluator flow
+## Implementation details
 
-1. Open either live URL, or run `npm ci && npm run dev`.
-2. Explore a seeded Jarvis, Ather, Helix, Simulation Studio, or Polaris HQ
-   conversation.
-3. Create a chat, submit with `Enter`, then use the Send button and observe the
-   streamed assistant response.
-4. Switch or rename a chat, refresh, and verify that the session is restored.
-5. Send `/error` to inspect the deterministic failed-message and retry state.
-6. Start a voice call. Grant microphone access for live recognition, or inspect
-   the clearly labelled demo fallback.
-7. Resize to a narrow viewport and test the session drawer, composer, and voice
-   dialog using keyboard and touch controls.
-8. Run `npm run check`.
+<details>
+<summary><strong>Chat, persistence, errors, and attachments</strong></summary>
 
-## Chat, persistence, and attachments
+The local adapter streams deterministic, domain-aware responses in short
+chunks after a small delay. This keeps the default experience fast, repeatable,
+and independent of external uptime.
 
-The local adapter streams deterministic, domain-aware responses in short chunks
-after a small delay, keeping the default experience fast and repeatable.
+Conversation data is stored under
+`synthio.assignment.conversations` in browser `localStorage`. The payload is
+versioned and runtime-validated. Missing, malformed, or unavailable storage
+falls back to safe seeded conversations. Interrupted assistant streams recover
+into an explicit retryable state instead of appearing complete after refresh.
+Persistence is limited to the current browser profile and device.
+
 Including `/error` anywhere in a message deliberately exercises the retryable
-error path; retrying that same message deliberately fails again.
+error path. Retrying the same message deliberately fails again so reviewers can
+inspect a stable error state.
 
-Conversation data is stored under `synthio.assignment.conversations` in browser
-`localStorage`. The payload is versioned and runtime-validated. Missing,
-malformed, or unavailable storage falls back to safe seeded conversations.
-Interrupted assistant streams are recovered into an explicit retryable state
-instead of appearing complete after a refresh.
+The attachment control accepts `.txt`, `.md`, `.csv`, and `.json` files up to
+16 KB. It reads content locally and adds it as visible prompt context; it does
+not upload files to a separate service. Never use real patient, HCP,
+confidential, or sensitive company data in this prototype.
 
-The attachment control accepts small `.txt`, `.md`, `.csv`, and `.json` files,
-reads their text in the browser, and adds it as visible prompt context. It does
-not upload files to a separate service. Do not use real patient, HCP, or
-confidential company data in this prototype.
+</details>
 
-## Voice behavior
-
-Synthio Assistant uses browser-provided speech capabilities:
+<details>
+<summary><strong>Voice behavior and browser support</strong></summary>
 
 - `SpeechRecognition` or `webkitSpeechRecognition` supplies interim and final
   transcript text.
-- `speechSynthesis` and `SpeechSynthesisUtterance` play assistant responses when
-  available.
-- Live microphone recognition requires HTTPS or `localhost`, browser support,
-  and user permission.
-- If recognition is unavailable, the page is insecure, or permission fails,
-  the call remains usable in a clearly identified demo mode. Demo mode preserves
-  the status experience and never fabricates transcript content.
+- `speechSynthesis` and `SpeechSynthesisUtterance` play assistant responses
+  when available.
+- Live recognition requires HTTPS or `localhost`, browser support, and
+  microphone permission.
+- If recognition is unavailable, the context is insecure, or permission is
+  denied, the call remains usable in a clearly identified demo mode.
+- Demo mode preserves the status and control experience but never fabricates
+  transcript content.
 - Speech playback support is detected separately, so text chat remains usable
   if synthesis is unavailable or interrupted.
 
-For the strongest live-voice test, use a current Chromium-based browser over
-HTTPS or `localhost` and allow microphone access when prompted. Recognition
-availability and processing depend on the browser and operating system.
+For the strongest test, use a current Chromium-based browser over HTTPS or
+`localhost` and allow microphone access. Recognition availability, audio
+processing, and privacy behavior depend on the browser and its speech provider.
+Do not use sensitive data.
 
-## Optional remote chat API
+</details>
 
-Copy `.env.example` to `.env.local`, configure a compatible browser-accessible
+<details>
+<summary><strong>Optional remote chat API contract</strong></summary>
+
+Copy `.env.example` to `.env.local`, set a compatible browser-accessible
 endpoint, and restart Vite:
 
 ```dotenv
 VITE_CHAT_API_URL=https://your-service.example/chat
 ```
 
-The value is an endpoint URL, never a provider secret. The browser sends:
+The value is an endpoint URL, never a provider secret. Anything prefixed with
+`VITE_` is bundled into client code.
+
+The browser sends:
 
 ```http
 POST /chat
@@ -161,72 +333,51 @@ Content-Type: application/json
 ```
 
 `messages` contains completed conversation history followed by the current
-message. Supported response shapes are:
+message. Supported response shapes:
 
 - `application/json`: a string or an object containing `content`, `reply`,
-  `delta`, `message.content`, or a compatible first `choices` entry.
-- `text/event-stream` or `application/x-ndjson`: one payload per line; optional
-  `data:` prefixes and `[DONE]` markers are supported.
-- Any other content type: streamed plain-text chunks.
+  `delta`, `message.content`, or a compatible first `choices` entry;
+- `text/event-stream` or `application/x-ndjson`: one payload per line, with
+  optional `data:` prefixes and `[DONE]` markers;
+- any other content type: streamed plain-text chunks.
 
-The endpoint must allow the deployed app origin. Non-2xx responses and invalid
-payloads become typed, user-facing errors; `408`, `429`, and `5xx` responses are
-marked retryable.
+The endpoint must allow the deployed app origin through CORS. Non-2xx responses
+and invalid payloads become typed, user-facing errors; `408`, `429`, and `5xx`
+responses are marked retryable.
 
-## Architecture
-
-The app uses feature boundaries rather than one page-level state object:
-
-- `src/features/conversations` owns session state, pure reducer transitions,
-  seeded synthetic data, persistence, and navigation.
-- `src/features/chat` owns the chat UI and typed mock/remote adapter boundary.
-- `src/features/voice` owns browser capability detection and the call state
-  machine.
-- `src/components` contains reusable app-level controls.
-- `src/types` contains shared domain models.
-
-Network requests, local storage, speech recognition, and speech synthesis stay
-behind dedicated boundaries. This keeps UI components focused and makes the
-critical state transitions independently testable. See
-[the architecture notes](docs/architecture.md) for the complete flow.
-
-## Quality and accessibility
-
-```bash
-npm run check
-```
-
-The release gate runs linting, strict type validation, the automated Vitest
-suite, and a production build.
-
-| Command | Purpose |
-| --- | --- |
-| `npm run lint` | ESLint checks |
-| `npm run typecheck` | TypeScript project validation |
-| `npm test` | One-shot Vitest run in JSDOM |
-| `npm run test:watch` | Interactive Vitest watch mode |
-| `npm run build` | Type-check and generate `dist/` |
-| `npm run preview` | Serve the production build locally |
-
-The automated suite covers reviewer flows, conversation reducers and storage,
-interrupted-stream recovery, remote JSON/SSE/NDJSON parsing, mock
-streaming/error/abort behavior, rich-message ordering, Web Speech capability
-mapping, and voice lifecycle cleanup.
-
-Semantic landmarks, labelled controls, focus management, live status
-announcements, touch-friendly targets, reduced-motion support, long-content
-wrapping, and responsive dialogs are built into the experience.
+</details>
 
 ## Deployment
 
-- **Vercel:** the primary deployment is
-  [synthio-labs-assistant.vercel.app](https://synthio-labs-assistant.vercel.app).
-  `vercel.json` runs `npm run build` and publishes `dist`.
-- **GitHub Pages:** each push to `main` runs `npm run check` in a clean Linux
-  runner before deploying `dist` through
-  `.github/workflows/deploy-pages.yml`.
-- **Netlify-ready:** `netlify.toml` defines the build, publish directory, and
-  baseline security headers.
+| Target | Status and behavior |
+| --- | --- |
+| [Vercel](https://synthio-labs-assistant.vercel.app) | Primary production demo; `vercel.json` runs `npm run build` and publishes `dist/` |
+| [GitHub Pages](https://damrianeelesh.github.io/Synthio-Assignment/) | Mirror deployed from `main` only after the complete release gate passes in a clean Linux runner |
+| Netlify | `netlify.toml` defines the build, publish directory, and baseline security headers |
 
 For any host, set `VITE_CHAT_API_URL` at build time only when using a compatible
 remote endpoint. The zero-setup mock remains the default.
+
+## Prototype boundaries
+
+- No PHI, real HCP data, medical advice, clinical decision support, or real
+  safety reports are used.
+- No live CRM, clinical, commercial, patient-support, Medical Information, or
+  Synthio Labs product integration is claimed.
+- Default responses are deterministic mock content designed for evaluation, not
+  a hosted foundation model.
+- Browser persistence does not synchronize across profiles or devices.
+- Web Speech support and processing depend on the browser, operating system,
+  network context, and speech provider.
+- Remote endpoints are visible to the client, must support CORS, and must never
+  rely on a secret embedded in a `VITE_*` variable.
+
+## Brand and design notes
+
+The prototype self-hosts public Synthio Labs SVG/PNG identity assets and the
+Geist variable font for accurate, fast, offline-safe visual alignment. Their use
+is limited to presenting this independent assignment and does not imply
+affiliation or endorsement.
+
+- [Design system](docs/design/design-system.md)
+- [Brand and design fidelity ledger](docs/design/fidelity-ledger.md)
