@@ -63,10 +63,14 @@ clearly identified as an independent assignment prototype.
 - **Conversation rows:** default, hover, active, and contextual-action states.
 - **Messages:** open assistant rows, right-aligned user bubbles, streaming,
   complete, and failed variants.
+- **Starter gallery:** six outcome-led cards for Jarvis, Ather, Helix,
+  Simulation Studio, Polaris HQ, and a safety drill. Each sends its complete
+  synthetic prompt in one click from an empty conversation.
 - **Voice:** desktop rail and mobile full-screen dialog powered by the same call
   state model.
 - **Feedback:** inline error with retry, loading indicator, empty state,
-  transcript status, and toast.
+  transcript status, toast, and a clearly labelled reviewer shortcut that
+  intentionally sends `/error`.
 - **Safety cues:** concise synthetic-data and approved-content reminders that do
   not impersonate a production compliance system.
 
@@ -85,6 +89,13 @@ message state, voice state, and accessibility semantics remain consistent.
 
 - Show user input immediately and stream assistant output to reduce perceived
   latency.
+- Turn an empty conversation into a useful test surface: expose all six
+  synthetic workflows without requiring the reviewer to invent prompt wording.
+- After a keyboard or pointer starter selection removes the gallery, move focus
+  to the persistent, labelled message log so the next interaction is
+  deterministic.
+- Keep the intentional retry-error shortcut visually separate from workflow
+  cards so a deliberate failure cannot be mistaken for a broken starter.
 - Keep state labels explicit: Connecting, Connected, Listening, Speaking, or
   Disconnected.
 - Preserve a usable text path when speech recognition or synthesis is

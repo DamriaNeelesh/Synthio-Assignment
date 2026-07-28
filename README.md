@@ -54,26 +54,29 @@
 | Reviewer question | Answer |
 | --- | --- |
 | What does it demonstrate? | A complete text-and-voice assistant with session management, streaming responses, browser speech integration, responsive layouts, and resilient errors. |
-| Can I test it immediately? | Yes. The default mock mode needs no account, API key, backend, or environment file. |
-| Why is it relevant to Synthio Labs? | Five synthetic scenarios mirror the public workflow themes of Jarvis, Ather, Helix, Simulation Studio, and Polaris HQ without claiming access to their production systems. |
+| Can I test it immediately? | Yes. Start a fresh conversation and choose any of six synthetic workflow cards; one click sends the complete prompt. The default mock mode needs no account, API key, backend, or environment file. |
+| Why is it relevant to Synthio Labs? | Six reviewer-ready starter workflows cover the public themes of Jarvis, Ather, Helix, Simulation Studio, and Polaris HQ plus a cross-workflow safety handoff, without claiming access to production systems. |
 | Is the architecture production-minded? | Strict TypeScript, feature boundaries, reducer-driven state, runtime-validated persistence, typed API adapters, accessible UI semantics, and recoverable failure states. |
-| How is it verified? | 63 automated tests, lint, strict type checking, a production build, zero dependency vulnerabilities, and Playwright checks across desktop, mobile, breakpoint, and short-landscape layouts. |
+| How is it verified? | 79 automated tests, lint, strict type checking, a production build, zero dependency vulnerabilities, and Playwright checks across desktop, mobile, breakpoint, and short-landscape layouts. |
 | Where is it deployed? | Vercel is the primary demo; GitHub Pages is an independently built mirror. The repository is also Netlify-ready. |
 
 ## Five-minute evaluator flow
 
 1. Open the [Vercel demo](https://synthio-labs-assistant.vercel.app).
-2. Switch between the seeded Jarvis, Ather, Helix, Simulation Studio, and
-   Polaris HQ conversations.
-3. Create a new conversation and submit a message with `Enter`; watch the
-   assistant response stream into the history.
-4. Start a voice conversation. Allow microphone access when available, or
+2. Create a new conversation and choose one of the six starter cards. The
+   Jarvis, Ather, Helix, Simulation Studio, Polaris HQ, and safety prompts send
+   immediately so you can inspect streaming without composing a test request.
+3. Return to a fresh conversation and select **Simulate a retryable error**.
+   The shortcut intentionally sends `/error`; inspect the inline failure and
+   Retry control, then continue testing with any workflow card.
+4. Switch between the seeded product-theme conversations, then type and submit
+   your own message with `Enter`.
+5. Start a voice conversation. Allow microphone access when available, or
    inspect the clearly labelled safe demo fallback.
-5. Rename or switch a conversation, refresh the page, and confirm that the
+6. Rename or switch a conversation, refresh the page, and confirm that the
    active session and history are restored.
-6. Send `/error` to exercise the deterministic inline error and retry path.
-7. Resize to a narrow viewport and test the session drawer, composer, and
-   full-screen voice interface.
+7. Resize to a narrow viewport and test the starter gallery, session drawer,
+   composer, and full-screen voice interface.
 8. Clone the repository and run `npm ci && npm run check` for the complete
    local release gate.
 
@@ -82,6 +85,9 @@
 - **Fast by default:** immediate local updates, incremental mock streaming, a
   compact production bundle, and no backend round-trip in the zero-setup
   evaluator path.
+- **Reviewer-first discovery:** every fresh chat presents six concise,
+  Synthio-specific synthetic workflow cards that send in one click, plus a
+  clearly labelled shortcut for the intentional retry-error state.
 - **One coherent multimodal experience:** chat history, session state, live
   transcript, speech playback, mute/resume, and end-call behavior share the
   same responsive workspace.
@@ -95,8 +101,9 @@
   failures, denied permissions, and unsupported browser features all have
   intentional recovery paths.
 - **Accessible and responsive:** semantic landmarks, labelled icon controls,
-  keyboard workflows, focus containment/restoration, live regions,
-  touch-friendly targets, reduced-motion support, and layouts down to `320px`.
+  keyboard workflows with deterministic focus handoff, modal focus
+  containment/restoration, live regions, touch-friendly targets,
+  reduced-motion support, and layouts down to `320px`.
 
 <details>
 <summary><strong>See the responsive 430px session drawer</strong></summary>
@@ -124,6 +131,7 @@
 | Voice status | Connecting, Connected, Listening, Speaking, and Disconnected |
 | Live transcript | Interim and final Web Speech results when recognition is available |
 | Conversation sessions | Create, switch, rename, delete, favorite, and restore previous chats |
+| Fresh-chat guidance | Six accessible, one-click synthetic workflow cards plus an intentional retry-error shortcut |
 | Chat API | Swappable mock and remote adapters behind one typed streaming contract |
 | Voice API | Browser speech recognition and synthesis isolated behind a dedicated adapter layer |
 | Responsive design | Desktop workspace, tablet overlay, mobile drawer, and full-screen call dialog |
@@ -131,7 +139,10 @@
 ### Useful extras beyond the brief
 
 - Local `.txt`, `.md`, `.csv`, and `.json` context attachments up to 16 KB.
-- Deterministic `/error` command for fast reviewer testing.
+- Six one-click workflow starters shown whenever a conversation has no
+  messages.
+- Clearly labelled reviewer shortcut that sends the deterministic `/error`
+  command for fast retry-state testing.
 - Copy message, share conversation, favorites, and editable session names.
 - JSON, plain text, SSE, and NDJSON remote response parsing.
 - Versioned `localStorage` schema with runtime validation and recovery.
@@ -142,6 +153,9 @@
 These scenarios are inspired by publicly described product themes. They
 demonstrate interaction design and safe workflow boundaries—not the production
 capabilities, data, compliance controls, or integrations of those products.
+Every fresh chat exposes all six as one-click prompts, ordered from field and
+scientific workflows through patient support, research, analytics, and a
+cross-workflow safety drill.
 
 | Public product theme | Synthetic demo scenario | UX demonstrated |
 | --- | --- | --- |
@@ -150,6 +164,7 @@ capabilities, data, compliance controls, or integrations of those products.
 | [Helix](https://synthiolabs.com/helix) | Fictional patient-support onboarding with no PHI | Access, onboarding, adherence-support steps, and non-clinical escalation |
 | [Simulation Studio](https://synthiolabs.com/simulation-studio) | Synthetic HCP and patient persona testing | Message feedback, concept comparison, and clearly labelled synthetic evidence |
 | [Polaris HQ](https://synthiolabs.com/polaris-hq) | Natural-language questions over fictional commercial metrics | Assumption-aware summaries and traceable next questions |
+| Cross-workflow safety drill | A fictional caller reports a possible adverse event | Neutral acknowledgement, minimum-data handling, immediate human escalation, and no diagnosis or medical advice |
 
 ## Architecture
 
@@ -194,8 +209,8 @@ Latest release verification:
 | --- | --- |
 | `npm run lint` | Passed |
 | `npm run typecheck` | Passed with strict TypeScript |
-| `npm test` | **63 / 63 tests passed** across 11 test files |
-| `npm run build` | Passed; production JS is 267.49 KB / 82.78 KB gzip and CSS is 34.12 KB / 8.24 KB gzip |
+| `npm test` | **79 / 79 tests passed** across 12 test files |
+| `npm run build` | Passed; production JS is 270.95 KB / 83.75 KB gzip and CSS is 36.74 KB / 8.79 KB gzip |
 | `npm audit --audit-level=high` | **0 vulnerabilities** |
 | Rendered browser QA | Zero console errors; chat and voice exercised at desktop, mobile, `320px`, breakpoint, and short-landscape viewports |
 | Responsive boundary matrix | No horizontal overflow or header collisions at `375`, `420`, `768`, `860`, `1179`, or `1180` pixels |
@@ -203,6 +218,8 @@ Latest release verification:
 The automated suite covers:
 
 - critical reviewer flows and Enter-to-send behavior;
+- all six starter prompts, their exact payloads, disabled behavior, fresh-chat
+  auto-scroll, and deterministic product-response routing;
 - conversation reducer transitions and persistence validation;
 - interrupted-stream recovery and retry metadata;
 - mock streaming, deterministic failures, and abort handling;

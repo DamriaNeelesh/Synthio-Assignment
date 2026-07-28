@@ -1,9 +1,9 @@
-import { BarChart3, FlaskConical, Stethoscope } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 import { BrandMark } from '../../components/BrandMark';
 import type { Conversation } from '../../types';
 import { ChatComposer } from './ChatComposer';
 import { MessageBubble } from './MessageBubble';
+import { StarterPrompts } from './StarterPrompts';
 
 interface ChatViewProps {
   conversation: Conversation | null;
@@ -14,27 +14,6 @@ interface ChatViewProps {
   onStopGeneration: () => void;
 }
 
-const STARTER_PROMPTS = [
-  {
-    icon: Stethoscope,
-    label: 'Prepare a field call',
-    prompt:
-      'Create a Jarvis-style pre-call brief from a fictional CRM record. Use only approved content and include follow-up and compliance checkpoints.',
-  },
-  {
-    icon: FlaskConical,
-    label: 'Test a scientific exchange',
-    prompt:
-      'Show how Ather should handle a fictional HCP scientific question that may be off-label, including audit and escalation steps.',
-  },
-  {
-    icon: BarChart3,
-    label: 'Explore commercial data',
-    prompt:
-      'Show how Polaris HQ would answer a commercial question across synthetic field and access data without inventing unsupported findings.',
-  },
-] as const;
-
 export function ChatView({
   conversation,
   isGenerating,
@@ -44,7 +23,9 @@ export function ChatView({
   onStopGeneration,
 }: ChatViewProps) {
   const scrollRegionRef = useRef<HTMLDivElement>(null);
+  const shouldFocusMessageLogRef = useRef(false);
   const lastMessage = conversation?.messages.at(-1);
+  const hasMessages = Boolean(conversation?.messages.length);
 
   useEffect(() => {
     const scrollRegion = scrollRegionRef.current;
@@ -57,27 +38,45 @@ export function ChatView({
         '(prefers-reduced-motion: reduce)',
       ).matches;
       scrollRegion.scrollTo({
-        behavior: reduceMotion ? 'auto' : 'smooth',
-        top: scrollRegion.scrollHeight,
+        behavior: reduceMotion || !hasMessages ? 'auto' : 'smooth',
+        top: hasMessages ? scrollRegion.scrollHeight : 0,
       });
     });
     return () => window.cancelAnimationFrame(frame);
   }, [
     conversation?.id,
     conversation?.messages.length,
+    hasMessages,
     lastMessage?.content,
   ]);
 
-  const hasMessages = Boolean(conversation?.messages.length);
+  useEffect(() => {
+    if (!hasMessages || !shouldFocusMessageLogRef.current) {
+      return;
+    }
+
+    shouldFocusMessageLogRef.current = false;
+    const frame = window.requestAnimationFrame(() => {
+      scrollRegionRef.current?.focus({ preventScroll: true });
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [conversation?.id, hasMessages]);
+
+  function handleStarterPromptSelect(prompt: string) {
+    shouldFocusMessageLogRef.current = true;
+    onSendMessage(prompt);
+  }
 
   return (
     <section className="chat-view" aria-label="Chat with Synthio Assistant">
       <div
-        aria-live="polite"
-        aria-relevant="additions text"
+        aria-label={hasMessages ? 'Conversation messages' : undefined}
+        aria-live={hasMessages ? 'polite' : undefined}
+        aria-relevant={hasMessages ? 'additions text' : undefined}
         className="chat-view__scroll-region"
         ref={scrollRegionRef}
-        role="log"
+        role={hasMessages ? 'log' : undefined}
+        tabIndex={hasMessages ? -1 : undefined}
       >
         <div
           className={[
@@ -100,21 +99,14 @@ export function ChatView({
               </div>
               <h2>What should we explore across life sciences?</h2>
               <p>
-                Try a synthetic field, HCP, patient-support, research, or
-                commercial workflow. Never enter real patient or HCP data.
+                Choose a one-click demo workflow or write your own. Every
+                scenario uses synthetic data—never enter real patient or HCP
+                information.
               </p>
-              <div className="chat-empty__prompts">
-                {STARTER_PROMPTS.map(({ icon: PromptIcon, label, prompt }) => (
-                  <button
-                    key={label}
-                    onClick={() => onSendMessage(prompt)}
-                    type="button"
-                  >
-                    <PromptIcon aria-hidden="true" size={18} strokeWidth={1.8} />
-                    <span>{label}</span>
-                  </button>
-                ))}
-              </div>
+              <StarterPrompts
+                disabled={isGenerating}
+                onSelectPrompt={handleStarterPromptSelect}
+              />
             </div>
           )}
         </div>

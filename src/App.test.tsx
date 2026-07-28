@@ -58,6 +58,7 @@ function useViewport(width: number) {
 afterEach(() => {
   cleanup();
   window.speechSynthesis?.cancel();
+  vi.restoreAllMocks();
   vi.unstubAllGlobals();
   Object.defineProperty(window, 'innerWidth', {
     configurable: true,
@@ -111,6 +112,62 @@ describe('Synthio Labs AI assistant', () => {
       );
     }, { timeout: 5_000 });
   });
+
+  it(
+    'runs a one-click workflow from a fresh chat and then hides the cards',
+    async () => {
+      const user = userEvent.setup();
+      const scrollToSpy = vi.spyOn(Element.prototype, 'scrollTo');
+      renderApp();
+
+      await user.click(
+        screen.getByRole('button', { name: 'New conversation' }),
+      );
+      await waitFor(() => {
+        expect(scrollToSpy).toHaveBeenLastCalledWith(
+          expect.objectContaining({ top: 0 }),
+        );
+      });
+      const firstPromptRegion = screen.getByRole('region', {
+        name: 'One-click demo prompts',
+      });
+      const atherPrompt = within(firstPromptRegion).getByRole('button', {
+        name: 'Try Ather prompt: Handle an HCP question',
+      });
+      atherPrompt.focus();
+      await user.keyboard('{Enter}');
+
+      expect(
+        screen.queryByRole('region', { name: 'One-click demo prompts' }),
+      ).not.toBeInTheDocument();
+      const messageLog = screen.getByRole('log', {
+        name: 'Conversation messages',
+      });
+      await waitFor(() => expect(messageLog).toHaveFocus());
+      expect(
+        within(
+          screen.getByRole('article', { name: 'You message' }),
+        ).getByText(/Show an Ather-style safe-response workflow/),
+      ).toBeInTheDocument();
+      await waitFor(
+        () => {
+          expect(screen.getAllByRole('article').at(-1)).toHaveTextContent(
+            'This demonstrates interaction design, not medical guidance.',
+          );
+        },
+        { timeout: 10_000 },
+      );
+      await waitFor(
+        () => {
+          expect(
+            screen.queryByRole('button', { name: 'Stop response' }),
+          ).not.toBeInTheDocument();
+        },
+        { timeout: 10_000 },
+      );
+    },
+    25_000,
+  );
 
   it('renders a retryable error state deterministically', async () => {
     const user = userEvent.setup();
